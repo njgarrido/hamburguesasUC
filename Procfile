@@ -1,1 +1,1 @@
-web: gunicorn buurguers.wsgi
+web: gunicorn burguers.wsgi
