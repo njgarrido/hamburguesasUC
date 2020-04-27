@@ -1,8 +1,15 @@
 from django.urls import include, path
-from rest_framework import routers
 from . import views
+from rest_framework.routers import SimpleRouter
 
-router = routers.DefaultRouter(trailing_slash=False)
+
+class OptionalSlashRouter(SimpleRouter):
+
+    def __init__(self):
+        self.trailing_slash = '/?'
+        super(SimpleRouter, self).__init__()
+
+router = OptionalSlashRouter()
 router.register(r'hamburguesa', views.BurguerViewSet)
 router.register(r'ingrediente', views.IngredientViewSet)
 

@@ -16,6 +16,8 @@ class BurguerViewSet(viewsets.ModelViewSet):
         pass
 
     def partial_update(self, request, pk=None):
+        print(request.data)
+
         burguer = Burguer.objects.get(id_burguer=pk)
         serializer = BurguerSerializer(
             burguer, data=request.data, partial=True)
