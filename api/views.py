@@ -21,6 +21,9 @@ class BurguerViewSet(viewsets.ModelViewSet):
             burguer, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            return Response('success patch')
+
+        return Response('fail patch')
 
     def destroy(self, request, pk=None):
         burguer = Burguer.objects.get(id_burguer=pk)
