@@ -16,7 +16,9 @@ class BurguerViewSet(viewsets.ModelViewSet):
         pass
 
     def partial_update(self, request, pk=None):
-        print(request.data)
+
+        if "id_burguer" in request.data or "ingredients" in request.data:
+            return Response('fail patch, tried to change id or ingredients')
 
         burguer = Burguer.objects.get(id_burguer=pk)
         serializer = BurguerSerializer(
