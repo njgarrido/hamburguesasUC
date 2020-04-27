@@ -16,6 +16,7 @@ class BurguerViewSet(viewsets.ModelViewSet):
         pass
 
     def partial_update(self, request, pk=None):
+        return Response(request.data)
         burguer = Burguer.objects.get(id_burguer=pk)
         serializer = BurguerSerializer(
             burguer, data=request.data, partial=True)
@@ -32,11 +33,12 @@ class BurguerViewSet(viewsets.ModelViewSet):
         ingredient = Ingredient.objects.get(id_ingredient=pk2)
         if request.method == 'PUT':
             burguer.ingredients.add(ingredient)
-            burguer.save()
+            # burguer.save()
+            return Response('success put')
         if request.method == 'DELETE':
-            ingredients = burguer.ingredients.all()
             burguer.ingredients.remove(ingredient)
-            burguer.save()
+            # burguer.save()
+            return Response('success delete')
 
 
 class IngredientViewSet(viewsets.ModelViewSet):
