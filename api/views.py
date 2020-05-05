@@ -117,12 +117,12 @@ class IngredientViewSet(viewsets.ModelViewSet):
     serializer_class = IngredientSerializer
 
     def update(self, request, id=None):
-        if request.method == "GET":
+        if request.method == "GET" or request.method == "get":
             return Response(
                 {"code": "200", "descripcion": 'resultados obtenidos'},
                 status=status.HTTP_200_OK
             )
-        elif request.method == "POST":
+        else:
                 return Response(
                     {"code": "201", "descripcion":'ingrediente cread0'},
                     status=status.HTTP_201_CREATED
