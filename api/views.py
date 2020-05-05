@@ -19,14 +19,14 @@ class BurguerViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_200_OK
             )
         elif request.method == "POST":
-                return Response(
-                    {"code": "201", "descripcion":'ingrediente cread0'},
-                    status=status.HTTP_201_CREATED
-                )    
+            return Response(
+                {"code": "201", "descripcion": 'ingrediente cread0'},
+                status=status.HTTP_201_CREATED
+            )
 
     def partial_update(self, request, pk=None):
         try:
-            aux = int(id)
+            aux = int(pk)
         except:
             return Response(
                 {"code": "400", "descripcion": 'id invalido'},
@@ -51,7 +51,7 @@ class BurguerViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response(
-                {"code": "200", "descripcion":'operacion exitosa'},
+                {"code": "200", "descripcion": 'operacion exitosa'},
                 status=status.HTTP_200_OK
             )
         else:
@@ -65,7 +65,7 @@ class BurguerViewSet(viewsets.ModelViewSet):
             burguer = Burguer.objects.get(id_burguer=pk)
         except:
             return Response(
-                {"code": "201", "descripcion":'hamburguesa creada'},
+                {"code": "201", "descripcion": 'hamburguesa creada'},
                 status=status.HTTP_201_CREATED
             )
         burguer.delete()
@@ -80,7 +80,7 @@ class BurguerViewSet(viewsets.ModelViewSet):
             burguer = Burguer.objects.get(id_burguer=pk)
         except:
             return Response(
-                {"code": "400", "descripcion":'Id de hamburguesa inválido'},
+                {"code": "400", "descripcion": 'Id de hamburguesa inválido'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         if request.method == 'PUT':
@@ -90,7 +90,7 @@ class BurguerViewSet(viewsets.ModelViewSet):
                 return Response(
                     {"code": "404", "descripcion": 'ingrediente inexistente'},
                     status=status.HTTP_404_NOT_FOUND
-                    )
+                )
             burguer.ingredients.add(ingredient)
             return Response(
                 {"code": "201", "descripcion": 'ingrediente agregado'},
@@ -102,12 +102,12 @@ class BurguerViewSet(viewsets.ModelViewSet):
                 burguer.ingredients.remove(ingredient)
             except:
                 return Response(
-                    {"code": "404", "descripcion":'Ingrediente inexistente en la hamburguesa'},
+                    {"code": "404", "descripcion": 'Ingrediente inexistente en la hamburguesa'},
                     status=status.HTTP_404_NOT_FOUND
                 )
             # burguer.save()
             return Response(
-                {"code": "200", "descripcion":'Ingrediente retirado'},
+                {"code": "200", "descripcion": 'Ingrediente retirado'},
                 status=status.HTTP_200_OK
             )
 
@@ -116,6 +116,20 @@ class IngredientViewSet(viewsets.ModelViewSet):
     queryset = Ingredient.objects.all().order_by('name')
     serializer_class = IngredientSerializer
 
+    def create(self, request):
+        serializer = IngredientSerializer(data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {"code": "201", "descripcion": 'operacion exitosa'},
+                status=status.HTTP_201_CREATED
+            )
+        else:
+            return Response(
+                {"code": "400", "descripcion": 'operacion fallida'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
     def update(self, request, id=None):
         if request.method == "GET" or request.method == "get":
             return Response(
@@ -123,11 +137,10 @@ class IngredientViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_200_OK
             )
         else:
-                return Response(
-                    {"code": "201", "descripcion":'ingrediente cread0'},
-                    status=status.HTTP_201_CREATED
-                )             
-
+            return Response(
+                {"code": "201", "descripcion": 'ingrediente cread0'},
+                status=status.HTTP_201_CREATED
+            )
 
     def partial_update(self, request, id=None):
         try:
@@ -156,16 +169,16 @@ class IngredientViewSet(viewsets.ModelViewSet):
             return Response(
                 {"code": "404", "descripcion": 'ingrediente inexistente'},
                 status=status.HTTP_404_NOT_FOUND
-                )
+            )
         burguers = ingredient.burguer_set.all()
         if not burguers:
             ingredient.delete()
             return Response(
-                {"code": "200", "descripcion":'ingrediente eliminado'},
+                {"code": "200", "descripcion": 'ingrediente eliminado'},
                 status=status.HTTP_200_OK
             )
         else:
             return Response(
-                {"code": "409", "descripcion":'Ingrediente no se puede borrar, se encuentra presente en una hamburguesa'},
+                {"code": "409", "descripcion": 'Ingrediente no se puede borrar, se encuentra presente en una hamburguesa'},
                 status=status.HTTP_409_CONFLICT
             )
