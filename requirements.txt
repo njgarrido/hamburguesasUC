@@ -2,7 +2,7 @@ Pillow==6.2.2
 djangorestframework==3.11.0
 asgiref==3.2.7
 astroid==2.2.5
-certifi==2018.4.16
+certifi==2022.12.7
 chardet==3.0.4
 Click==7.0
 Django==3.0.5
